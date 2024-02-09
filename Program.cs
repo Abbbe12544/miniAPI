@@ -39,3 +39,5 @@ double CalculateSquareArea(int sideLength)
 {
     return Math.Pow(sideLength, 2);
 }
+
+//hej//
