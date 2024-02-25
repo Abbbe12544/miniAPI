@@ -11,6 +11,9 @@ app.MapGet("/division", (int num1, int num2) => DivideNumbers(num1, num2));
 app.MapGet("/multiplication", (int num1, int num2) => MultiplyNumbers(num1, num2));
 app.MapPost("/square", ([FromBody] int sideLength) => CalculateSquareArea(sideLength));
 
+app.MapGet("/encryptNumbers", (string numbers) => EncryptNumbers(numbers)); 
+app.MapGet("/decryptNumbers", (string numbers) => DecryptNumbers(numbers));
+
 app.Run();
 
 string AddNumbers(int num1, int num2)
@@ -38,6 +41,32 @@ string MultiplyNumbers(int num1, int num2)
 double CalculateSquareArea(int sideLength)
 {
     return Math.Pow(sideLength, 2);
+}
+
+string EncryptNumbers(string numbers)
+{
+    return string.Concat(numbers.Select(c => EncryptDigit(c)));
+}
+
+string DecryptNumbers(string numbers)
+{
+    return string.Concat(numbers.Select(c => DecryptDigit(c)));
+}
+
+char EncryptDigit(char digit)
+{
+    if (!char.IsDigit(digit)) return digit; // Säkerställer att bara siffror behandlas
+    int shift = 3;
+    int encryptedDigit = ((digit - '0' + shift) % 10) + '0';
+    return (char)encryptedDigit;
+}
+
+char DecryptDigit(char digit)
+{
+    if (!char.IsDigit(digit)) return digit; // Säkerställer att bara siffror behandlas
+    int shift = 3;
+    int decryptedDigit = ((digit - '0' - shift + 10) % 10) + '0';
+    return (char)decryptedDigit;
 }
 
 
